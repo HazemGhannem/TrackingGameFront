@@ -1,26 +1,124 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --cyan: #00e5ff;
+    --cyan-dim: rgba(0, 229, 255, 0.12);
+    --cyan-border: rgba(0, 229, 255, 0.25);
+    --surface: #0d1017;
+    --surface-2: #111520;
+    --surface-3: #161c28;
+    --red: #ff3b5c;
+    --green: #00e676;
+    --amber: #ffb300;
+    --text-muted: #5a6478;
+    --text-secondary: #8a94a8;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background: #080a0f;
+    color: #e8ecf4;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e2535;
+    border-radius: 2px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .font-condensed {
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+
+  /* Glow effects */
+  .glow-cyan {
+    box-shadow:
+      0 0 20px rgba(0, 229, 255, 0.15),
+      0 0 1px rgba(0, 229, 255, 0.4);
+  }
+  .glow-red {
+    box-shadow: 0 0 12px rgba(255, 59, 92, 0.2);
+  }
+  .text-glow-cyan {
+    text-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+  }
+
+  /* Live pulse */
+  .live-dot {
+    animation: livePulse 1.5s ease-in-out infinite;
+  }
+  @keyframes livePulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  /* Slide in */
+  .animate-slide-up {
+    animation: slideUp 0.5s ease forwards;
+  }
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Card base */
+  .card {
+    background: var(--surface);
+    border: 1px solid #1a2030;
+    border-radius: 12px;
+  }
+
+  .card-hover {
+    transition:
+      border-color 0.2s ease,
+      transform 0.2s ease;
+  }
+  .card-hover:hover {
+    border-color: var(--cyan-border);
+    transform: translateY(-1px);
+  }
+
+  /* Section label */
+  .section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* Score chip */
+  .score-chip {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
 }
