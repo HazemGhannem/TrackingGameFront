@@ -1,30 +1,46 @@
-'use client';
-
-import Navbar from '@/components/Navbar';
-import HeroStats from '@/components/Herostats';
-import LiveMatches from '@/components/LiveMatches';
-import Leaderboard from '@/components/LeaderBoard';
-import RecentResults from '@/components/ReachentResults';
-import GameFilter from '@/components/GameFilter';
-import { useState } from 'react';
+import PlayerSearch from '@/components/PlayerSearch';
 
 export default function HomePage() {
-  const [activeGame, setActiveGame] = useState('all');
-
   return (
-    <main className="min-h-screen bg-[#080A0F] text-white font-['Barlow',sans-serif]">
-      <Navbar />
-      <div className="max-w-[1400px] mx-auto px-6 pb-16">
-        <HeroStats />
-        <GameFilter active={activeGame} onChange={setActiveGame} />
-        <div className="grid grid-cols-1 xl:grid-cols-[1fr_360px] gap-6 mt-8">
-          <div className="flex flex-col gap-6">
-            <LiveMatches activeGame={activeGame} />
-            <RecentResults activeGame={activeGame} />
-          </div>
-          <Leaderboard />
+    <main className="min-h-screen bg-[#080A0F] text-white font-['Barlow',sans-serif] ">
+      <section className="relative flex flex-col items-center justify-center px-6 pt-20 pb-40 ">
+        <div
+          className="absolute inset-0 pointer-events-none "
+          style={{
+            background:
+              'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(0,229,255,0.07) 0%, transparent 70%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 pointer-events-none opacity-[0.025] "
+          style={{
+            backgroundImage:
+              'linear-gradient(#00E5FF 1px,transparent 1px),linear-gradient(90deg,#00E5FF 1px,transparent 1px)',
+            backgroundSize: '60px 60px',
+          }}
+        />
+
+        <div className="relative text-center mb-8 ">
+          <p className="section-label mb-3">Esports Tracker</p>
+          <h1 className="font-condensed font-800 text-5xl md:text-6xl tracking-tight text-white leading-none">
+            Find any
+            <span
+              className="text-[#00E5FF]"
+              style={{ textShadow: '0 0 40px rgba(0,229,255,0.4)' }}
+            >
+              Player
+            </span>
+          </h1>
+          <p className="text-[#5A6478] text-sm mt-3 max-w-sm mx-auto">
+            Search across all regions and games. Track your favourites in real
+            time.
+          </p>
         </div>
-      </div>
+
+        <div className="relative w-full max-w-2xl">
+          <PlayerSearch />
+        </div>
+      </section>
     </main>
   );
 }
