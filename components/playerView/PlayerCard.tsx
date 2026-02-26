@@ -30,7 +30,6 @@ function rankMeta(lp: number) {
 
 export default function PlayerCard({
   favId,
-  playerId,
   gameName,
   tagLine,
   profileIconId,
@@ -67,7 +66,7 @@ export default function PlayerCard({
 
       {/* Remove button — passes playerId so the slice can filter correctly */}
       <button
-        onClick={() => onRemove(playerId)}
+        onClick={() => onRemove(favId)}
         className="absolute top-3 right-3 w-6 h-6 rounded-lg border border-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 hover:!border-[rgba(255,59,92,0.35)] hover:bg-[rgba(255,59,92,0.08)] transition-all duration-200 cursor-pointer"
       >
         <X size={12} className="text-[#FF3B5C]" />

@@ -3,13 +3,10 @@
 import FavouritesHeader from '@/components/playerView/FavouritesHeader';
 import FavouritesLoading from '@/components/playerView/FavouritesLoading';
 import PlayerCard from '@/components/playerView/PlayerCard';
-import { useAuth } from '@/hooks/useAuth';
 import { useFavorites } from '@/hooks/useFavorite';
 
-
 export default function TrackedPlayers() {
-  const { currentUser } = useAuth();
-  const { favorites, loading, remove } = useFavorites(currentUser?._id!);
+  const { favorites, loading, remove } = useFavorites();
 
   if (loading) return <FavouritesLoading />;
   if (favorites.length === 0) return null;
@@ -22,12 +19,12 @@ export default function TrackedPlayers() {
           <PlayerCard
             key={String(fav._id)}
             favId={String(fav._id)}
-            playerId={String(fav.playerId._id)} 
+            playerId={String(fav.playerId._id)}
             gameName={fav.playerId.gameName}
             tagLine={fav.playerId.tagLine}
             profileIconId={fav.playerId.profileIconId!}
             ranked={fav.playerId.ranked[0]}
-            onRemove={remove}  
+            onRemove={remove}
           />
         ))}
       </div>

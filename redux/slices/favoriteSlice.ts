@@ -44,38 +44,36 @@ const favoritesSlice = createSlice({
     // addFavorite
     builder
       .addCase(addFavorite.pending, (state) => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(
         addFavorite.fulfilled,
         (state, action: PayloadAction<PopulatedFavoriteDocument>) => {
-          state.loading = false;
-          state.items.unshift(action.payload);
+          // avoid duplicates
+          const exists = state.items.some(
+            (fav) => String(fav._id) === String(action.payload._id),
+          );
+          if (!exists) state.items.unshift(action.payload);
         },
       )
       .addCase(addFavorite.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload as string;
       });
 
     // removeFavorite
     builder
       .addCase(removeFavorite.pending, (state) => {
-        state.loading = true;
         state.error = null;
       })
       .addCase(
         removeFavorite.fulfilled,
         (state, action: PayloadAction<string>) => {
-          state.loading = false;
           state.items = state.items.filter(
             (fav) => String(fav._id) !== action.payload,
           );
         },
       )
       .addCase(removeFavorite.rejected, (state, action) => {
-        state.loading = false;
         state.error = action.payload as string;
       });
   },

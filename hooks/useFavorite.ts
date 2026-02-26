@@ -1,54 +1,51 @@
-import { addFavorite, fetchFavorites, removeFavorite } from '@/api/favorite';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { clearError } from '@/redux/slices/favoriteSlice';
-import { useEffect } from 'react';
+import { addFavorite, fetchFavorites, removeFavorite } from '@/api/favorite';
 
-export function useFavorites(userId: string) {
+export function useFavorites() {
   const dispatch = useAppDispatch();
   const { items, loading, error } = useAppSelector((s) => s.favorite);
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchFavorites(userId));
-    }
-  }, [userId, dispatch]);
+
+   useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
 
   function add(playerId: string) {
-    dispatch(addFavorite({ userId, playerId }));
+    dispatch(addFavorite({ playerId }));
   }
 
-  function remove(favId: string) {
-    console.log('remove');
-    dispatch(removeFavorite({ favoriteId: favId }));
+  function remove(favoriteId: string) {
+    dispatch(removeFavorite({ favoriteId }));
   }
 
-  function isFavorited(playerId: string) {
-    return items.some((fav) => String(fav.playerId._id) === playerId);
+  function isFavorited(favId: string) {
+    return items.some((fav) => String(fav.playerId._id) === favId);
   }
 
-  const toggleTrack = async (playerId: string) => {
-    if (!userId) return;
+   function toggleTrack(playerId: string) {
+     if (isFavorited(playerId)) {
+       const favoriteId = items.find(
+         (fav) => String(fav.playerId._id) === playerId,
+       )?._id;
+       if (favoriteId) remove(String(favoriteId));
+     } else {
+       add(playerId);
+     }
+   }
 
-    try {
-      if (isFavorited(playerId)) {
-        await remove(playerId);
-      } else {
-        await add(playerId);
-      }
-    } catch (err: any) {
-      console.error('Error toggling favorite:', err.message);
-    }
-  };
   function dismissError() {
     dispatch(clearError());
   }
+
   return {
-    toggleTrack,
     favorites: items,
     loading,
     error,
     add,
     remove,
     isFavorited,
+    toggleTrack,
     dismissError,
   };
 }

@@ -1,5 +1,4 @@
 import { Check, Plus } from 'lucide-react';
-import { useAuth } from '@/hooks/useAuth';
 import { useFavorites } from '@/hooks/useFavorite';
 
 interface TrackButtonProps {
@@ -7,11 +6,9 @@ interface TrackButtonProps {
 }
 
 export default function TrackButton({ playerId }: TrackButtonProps) {
-  const { currentUser } = useAuth();
-  const { isFavorited, toggleTrack } = useFavorites(currentUser?._id!);
+  const { isFavorited, toggleTrack } = useFavorites( );
 
   const tracked = isFavorited(playerId);
-  // console.log(tracked);
   return (
     <button
       onClick={() => toggleTrack(playerId)}
