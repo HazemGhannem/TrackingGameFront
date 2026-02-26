@@ -21,7 +21,6 @@ export default function Navbar() {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const { currentUser, handleLogout } = useAuth();
-
   useEffect(() => {
     setMounted(true);
     const handler = (e: MouseEvent) => {

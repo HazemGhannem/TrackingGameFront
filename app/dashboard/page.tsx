@@ -7,7 +7,7 @@ import Leaderboard from '@/components/LeaderBoard';
 import RecentResults from '@/components/ReachentResults';
 import GameFilter from '@/components/GameFilter';
 import { useState } from 'react';
-import PlayerSearch from '@/components/PlayerSearch';
+import PlayerSearch from '@/components/playerSearch/PlayerSearch';
 
 export default function HomePage() {
   const [activeGame, setActiveGame] = useState('all');

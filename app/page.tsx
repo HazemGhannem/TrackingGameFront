@@ -1,4 +1,4 @@
-import PlayerSearch from '@/components/PlayerSearch';
+import PlayerSearch from '@/components/playerSearch/PlayerSearch';
 
 export default function HomePage() {
   return (
