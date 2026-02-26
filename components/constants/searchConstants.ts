@@ -47,3 +47,7 @@ export function winRate(wins: number, losses: number) {
 export function wrColor(wr: number) {
   return wr >= 55 ? '#00E676' : wr >= 50 ? '#FFB300' : '#FF3B5C';
 }
+
+
+
+
