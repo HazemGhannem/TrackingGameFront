@@ -5,7 +5,7 @@ import { Input } from '@/components/Input';
 import { SuccessCard } from '@/components/SuccessCard';
 import { AlertCircle, BadgeCheck, Loader, Zap } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import { strengthLabel } from '@/utils/utils';
+import { strengthLabel } from '../../utils/utils';
 
 export default function SignupPage() {
   const {
