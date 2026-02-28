@@ -5,17 +5,20 @@ import { Input } from '@/components/Input';
 import Image from 'next/image';
 import { AlertCircle, Zap } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
+import { useSearchParams } from 'next/navigation';
 
 export default function LoginPage() {
-  const {
-    loginForm,
-    showPassword,
-    loading,
-    serverError,
-    handleLoginChange,
-    handleLoginSubmit,
-    togglePassword,
-  } = useAuth();
+    const searchParams = useSearchParams();
+    const from = searchParams.get('from') ?? '/dashboard';
+    const {
+      loginForm,
+      showPassword,
+      loading,
+      serverError,
+      handleLoginChange,
+      handleLoginSubmit,
+      togglePassword,
+    } = useAuth();
   return (
     <div className="min-h-screen bg-[#080A0F] flex items-center justify-center px-4 font-['Barlow',sans-serif]">
       {/* Grid bg */}
@@ -106,7 +109,7 @@ export default function LoginPage() {
 
             {/* Submit */}
             <button
-              onClick={handleLoginSubmit}
+              onClick={() => handleLoginSubmit(from)}
               disabled={loading}
               className="mt-1 h-11 rounded-xl bg-[#00E5FF] text-black font-condensed font-700 text-sm tracking-wider transition-all duration-200 hover:brightness-110 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer glow-cyan flex items-center justify-center gap-2"
             >
