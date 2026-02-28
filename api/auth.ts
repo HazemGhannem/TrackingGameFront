@@ -51,10 +51,9 @@ export const logoutUser = createAsyncThunk<void, void>(
 );
 
 function saveTokenCookie(token: string) {
-  const secure = process.env.NODE_ENV === 'production' ? ';Secure' : '';
-  document.cookie = `${COOKIE_NAME}=${token};Max-Age=${MAX_AGE};Path=/;SameSite=Lax${secure}`;
+  document.cookie = `${COOKIE_NAME}=${token};Max-Age=${MAX_AGE};Path=/;SameSite=None;Secure`;
 }
 
 function clearTokenCookie() {
-  document.cookie = `${COOKIE_NAME}=;Max-Age=0;Path=/;SameSite=Lax`;
+  document.cookie = `${COOKIE_NAME}=;Max-Age=0;Path=/;SameSite=None;Secure`;
 }
