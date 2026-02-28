@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Search, Loader2, X } from 'lucide-react';
-import { usePlayerSearch } from '@/hooks/usePlayerSearch';
+import { usePlayerSearch } from '../../hooks/usePlayerSearch';
 import { REGIONS, parseRiotId } from '../constants/searchConstants';
 import RegionPicker from './RegionPicker';
 import SearchDropdown from './SearchDropdown';
