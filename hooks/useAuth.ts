@@ -2,16 +2,18 @@ import { useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { resetSignup } from '@/redux/slices/authSlice';
 import { loginUser, logoutUser, signupUser } from '@/api/auth';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { LoginFormState, SignupFieldErrors, SignupFormState } from '@/types/type';
-
+import { useRouter } from 'next/navigation';
+import {
+  LoginFormState,
+  SignupFieldErrors,
+  SignupFormState,
+} from '@/types/type';
 
 export function useAuth() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const searchParams = useSearchParams();
+  // removed useSearchParams
 
-  // const notify = useNotification();
   const { loading, success, error, user } = useAppSelector((s) => s.auth);
 
   const [form, setForm] = useState<SignupFormState>({
@@ -51,18 +53,12 @@ export function useAuth() {
       errors.confirmPassword = 'Passwords do not match.';
 
     setFieldErrors(errors);
-
-    if (Object.keys(errors).length > 0) {
-      return false;
-    }
-
-    return true;
+    return Object.keys(errors).length === 0;
   }, [form]);
 
   const handleSubmit = useCallback(async () => {
     if (!validate()) return;
-
-    const result = await dispatch(
+    await dispatch(
       signupUser({
         username: form.username,
         email: form.email,
@@ -89,13 +85,11 @@ export function useAuth() {
   const validateLogin = useCallback((): boolean => {
     const errors: Record<string, string> = {};
 
-    if (!loginForm.email || !/^\S+@\S+\.\S+$/.test(loginForm.email)) {
+    if (!loginForm.email || !/^\S+@\S+\.\S+$/.test(loginForm.email))
       errors.email = 'Enter a valid email address.';
-    }
 
-    if (!loginForm.password || loginForm.password.length < 1) {
+    if (!loginForm.password || loginForm.password.length < 1)
       errors.password = 'Password is required.';
-    }
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
@@ -111,15 +105,15 @@ export function useAuth() {
       }),
     );
     if (loginUser.fulfilled.match(result)) {
-      const from = searchParams.get('from') ?? '/dashboard';
-      router.push(from);
+      router.push('/dashboard');  
     }
-  }, [validateLogin, dispatch, loginForm, searchParams, router]);
+  }, [validateLogin, dispatch, loginForm, router]);
 
   const handleLogout = useCallback(async () => {
     await dispatch(logoutUser());
     router.push('/login');
   }, [dispatch, router]);
+
   return {
     form,
     loginForm,
