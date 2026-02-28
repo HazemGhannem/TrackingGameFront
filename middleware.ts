@@ -7,7 +7,7 @@ const PRIVATE_ROUTES = [
   '/profile',
   '/settings',
   '/players',
-  '/teams',
+  '/matches',
   '/tournaments',
 ];
 const AUTH_ROUTES = ['/login', '/signup'];
