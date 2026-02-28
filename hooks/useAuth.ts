@@ -38,8 +38,8 @@ export function useAuth() {
 
   const validate = useCallback((): boolean => {
     const errors: SignupFieldErrors = {};
-    if (!form.username || form.username.length < 3)
-      errors.username = 'Username must be at least 3 characters.';
+    if (!form.username || form.username.length < 4)
+      errors.username = 'Username must be at least 4 characters.';
     if (!/^\S+@\S+\.\S+$/.test(form.email))
       errors.email = 'Enter a valid email address.';
     if (form.password.length < 8)
