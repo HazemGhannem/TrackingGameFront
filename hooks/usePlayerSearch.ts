@@ -27,7 +27,9 @@ interface UsePlayerSearchReturn {
 
 export function usePlayerSearch(): UsePlayerSearchReturn {
   const dispatch = useAppDispatch();
-  const { profile, loading, error } = useAppSelector((state) => state.riot);
+  const profile = useAppSelector((state) => state.riot.profile);
+  const loading = useAppSelector((state) => state.riot.loading);
+  const error = useAppSelector((state) => state.riot.error);
   const {
     players: challengers,
     platform: challengerPlatform,
