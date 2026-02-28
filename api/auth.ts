@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { LoginData, SignUpData, User, authResponse } from '../types/api/types';
 import { api } from './axiosInstance';
-const COOKIE_NAME="esport_token";
-const MAX_AGE = 7 * 24 * 60 * 60 * 1000 //7day;
+const COOKIE_NAME = 'token';
+const MAX_AGE = 7 * 24 * 60 * 60 * 1000; //7day;
 export const signupUser = createAsyncThunk<
   authResponse,
   SignUpData,
@@ -35,7 +35,7 @@ export const loginUser = createAsyncThunk<
     return rejectWithValue(err.message || 'login failed');
   }
 });
- 
+
 export const logoutUser = createAsyncThunk<void, void>(
   'auth/logout',
   async () => {
