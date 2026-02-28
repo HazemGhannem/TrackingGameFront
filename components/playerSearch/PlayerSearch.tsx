@@ -2,34 +2,30 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { Search, Loader2, X } from 'lucide-react';
-import { usePlayerSearch } from '@/hooks/Useplayersearch';
+import { usePlayerSearch } from '@/hooks/usePlayerSearch';
 import { REGIONS, parseRiotId } from '../constants/searchConstants';
 import RegionPicker from './RegionPicker';
 import SearchDropdown from './SearchDropdown';
-import TrackedPills from './TrackedPills';
 
 export default function PlayerSearch() {
   const [query, setQuery] = useState('');
   const [focused, setFocused] = useState(false);
-  const [region, setRegion] = useState('na');
+  const [region, setRegion] = useState('americas');
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const { profile, loading, error, search, reset } = usePlayerSearch();
-  const activeRegion = REGIONS.find((r) => r.id === region) ?? REGIONS[0];
+  const activeRegion = REGIONS.find((r) => r.label === region) ?? REGIONS[0];
   const parsed = parseRiotId(query);
-  // Show dropdown whenever there's a valid parsed query and the input is focused
   const showDropdown = focused && !!parsed;
 
-  // Auto-search as the user types (debounced)
   useEffect(() => {
     if (!parsed) {
       reset();
       return;
     }
     const timer = setTimeout(() => {
-      search(parsed.name, parsed.tag);
+      search(parsed.name, parsed.tag, region);
     }, 500);
     return () => clearTimeout(timer);
   }, [query]);
@@ -39,17 +35,6 @@ export default function PlayerSearch() {
     reset();
     inputRef.current?.focus();
   }
-
-  // Close dropdown on outside click
-  useEffect(() => {
-    const h = (e: MouseEvent) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node))
-        setFocused(false);
-    };
-    document.addEventListener('mousedown', h);
-    return () => document.removeEventListener('mousedown', h);
-  }, []);
-
   return (
     <section className="mt-8 mb-2">
       <div className="flex items-center gap-2 mb-3">
@@ -66,7 +51,7 @@ export default function PlayerSearch() {
           onSelect={setRegion}
         />
 
-        <div className="relative flex-1" ref={wrapperRef}>
+        <div className="relative flex-1">
           <div
             className={`flex items-center gap-3 px-4 h-12 rounded-xl border transition-all duration-200 ${
               focused
@@ -94,7 +79,7 @@ export default function PlayerSearch() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onFocus={() => setFocused(true)}
-              placeholder={`Search player name #${activeRegion.label}  (e.g. Faker#KR1)`}
+              placeholder={`Search player name #${activeRegion.id}  (e.g. Faker#KR1)`}
               className="flex-1 bg-transparent text-white text-sm placeholder-[#3A4155] outline-none font-['Barlow',sans-serif]"
             />
 
@@ -120,13 +105,10 @@ export default function PlayerSearch() {
               error={error}
               profile={profile}
               parsed={parsed}
-              activeRegion={activeRegion}
             />
           )}
         </div>
       </div>
-
-      <TrackedPills activeRegion={activeRegion} />
     </section>
   );
 }

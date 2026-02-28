@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -19,25 +19,18 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  const menuRef = useRef<HTMLDivElement>(null);
-  const { currentUser, handleLogout } = useAuth();
   useEffect(() => {
     setMounted(true);
-    const handler = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node))
-        setMenuOpen(false);
-    };
-    document.addEventListener('mousedown', handler);
-    return () => document.removeEventListener('mousedown', handler);
   }, []);
-
-  if (!mounted)
-    return <header className="h-16 border-b border-[#1A2030] bg-[#080A0F]" />;
+  const { currentUser, handleLogout } = useAuth();
 
   const initials = currentUser?.username
     ? currentUser.username.substring(0, 2).toUpperCase()
     : '??';
-
+  if (!mounted)
+    return (
+      <div className="w-9 h-9 rounded-lg bg-[#111520] border border-[#1A2030]" />
+    );
   return (
     <header className="sticky top-0 z-50 border-b border-[#1A2030] backdrop-blur-md bg-[rgba(8,10,15,0.9)]">
       <div className="max-w-[1400px] mx-auto px-6 h-16 flex items-center justify-between gap-8">
@@ -92,7 +85,7 @@ export default function Navbar() {
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#FF3B5C] rounded-full border border-[#080A0F]" />
               </button>
 
-              <div ref={menuRef} className="relative">
+              <div className="relative">
                 <button
                   onClick={() => setMenuOpen(!menuOpen)}
                   className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#00E5FF] to-[#0066FF] flex items-center justify-center cursor-pointer hover:brightness-110 transition-all shadow-[0_0_15px_rgba(0,229,255,0.3)]"

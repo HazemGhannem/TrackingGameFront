@@ -26,11 +26,11 @@ export function useGameNotifications(
 
     socketRef.current = socket;
 
-    socket.on('connect', () => console.log('[Socket] Connected:', socket.id));
+    socket.on('connect', () => console.log('[Socket] Connected:')); // socket.id;
 
     // Always call the latest callback via ref — avoids stale closure
     socket.on('game-notification', (notification: GameNotification) => {
-      console.log('[Socket] Received notification:', notification);
+      //   console.log('[Socket] Received notification:', notification);
       callbackRef.current(notification);
     });
 

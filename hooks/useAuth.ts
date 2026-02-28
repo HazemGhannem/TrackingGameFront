@@ -1,34 +1,10 @@
 import { useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { resetSignup } from '@/redux/slices/authSlice';
-import { useNotification } from './useNotification';
 import { loginUser, logoutUser, signupUser } from '@/api/auth';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { persistStore } from 'redux-persist';
-import { store } from '@/redux/store';
+import { LoginFormState, SignupFieldErrors, SignupFormState } from '@/types/type';
 
-export interface SignupFormState {
-  username: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-}
-
-export interface SignupFieldErrors {
-  username?: string;
-  email?: string;
-  password?: string;
-  confirmPassword?: string;
-}
-export interface LoginFormState {
-  email: string;
-  password: string;
-}
-
-export interface LoginFieldErrors {
-  email?: string;
-  password?: string;
-}
 
 export function useAuth() {
   const dispatch = useAppDispatch();
@@ -137,14 +113,13 @@ export function useAuth() {
     if (loginUser.fulfilled.match(result)) {
       const from = searchParams.get('from') ?? '/dashboard';
       router.push(from);
-      
     }
   }, [validateLogin, dispatch, loginForm, searchParams, router]);
 
   const handleLogout = useCallback(async () => {
     await dispatch(logoutUser());
     router.push('/login');
-  }, [dispatch,  router]);
+  }, [dispatch, router]);
   return {
     form,
     loginForm,

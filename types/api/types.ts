@@ -11,6 +11,7 @@ export interface authResponse {
 }
 
 export interface User {
+  _id: string;
   username: string;
   email: string;
   favorite: string[];
@@ -53,4 +54,33 @@ export interface PopulatedFavoriteDocument {
   userId: string;
   playerId: PlayerProfile;
   createdAt: Date;
+}
+export type PlatformRegion = 'euw1' | 'na1' | 'kr' | 'eun1';
+
+export interface ChallengerPlayer {
+  rank: number;
+  puuid: string;
+  gameName: string;
+  tagLine: string;
+  profileIconId: number;
+  summonerLevel: number;
+  leaguePoints: number;
+  wins: number;
+  losses: number;
+  winRate: number;
+  hotStreak: boolean;
+  veteran: boolean;
+  freshBlood: boolean;
+}
+
+export interface ChallengerState {
+  players: ChallengerPlayer[];
+  platform: PlatformRegion;
+  loading: boolean;
+  error: string | null;
+}
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  pages: number;
 }

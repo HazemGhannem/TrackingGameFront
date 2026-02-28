@@ -1,15 +1,12 @@
 import { Loader2, SearchX } from 'lucide-react';
-import { PlayerProfile } from '@/api/types';
-import { Region } from '../constants/searchConstants';
 import ResultCard from './ResultCard';
+import { PlayerProfile } from '@/types/api/types';
 
 interface SearchDropdownProps {
   loading: boolean;
   error: string | null;
   profile: PlayerProfile | null;
   parsed: { name: string; tag: string } | null;
-  
-  activeRegion: Region;
 }
 
 export default function SearchDropdown({
@@ -17,8 +14,6 @@ export default function SearchDropdown({
   error,
   profile,
   parsed,
-  
-  activeRegion,
 }: SearchDropdownProps) {
   return (
     <div className="absolute top-[calc(100%+6px)] left-0 right-0 z-50 card border-[#1E2535] overflow-hidden shadow-2xl animate-slide-up">
@@ -44,13 +39,7 @@ export default function SearchDropdown({
         </div>
       )}
 
-      {!loading && profile && (
-        <ResultCard
-          profile={profile}
-          
-          activeRegion={activeRegion}
-        />
-      )}
+      {!loading && profile && <ResultCard profile={profile} />}
     </div>
   );
 }

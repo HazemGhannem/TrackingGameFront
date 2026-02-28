@@ -1,29 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { Input } from '@/components/Input';
 import { SuccessCard } from '@/components/SuccessCard';
-import { AlertCircle, Zap } from 'lucide-react';
+import { AlertCircle, BadgeCheck, Loader, Zap } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-function strengthLabel(p: string): {
-  label: string;
-  color: string;
-  width: string;
-} {
-  if (!p) return { label: '', color: '#1A2030', width: '0%' };
-  if (p.length < 6)
-    return { label: 'Too short', color: '#FF3B5C', width: '20%' };
-  if (p.length < 8) return { label: 'Weak', color: '#FF8C00', width: '40%' };
-  const hasUpper = /[A-Z]/.test(p);
-  const hasNum = /\d/.test(p);
-  const hasSymbol = /[^A-Za-z0-9]/.test(p);
-  const score = [hasUpper, hasNum, hasSymbol].filter(Boolean).length;
-  if (score === 0) return { label: 'Fair', color: '#FFB300', width: '55%' };
-  if (score === 1) return { label: 'Good', color: '#00B4D8', width: '70%' };
-  if (score === 2) return { label: 'Strong', color: '#00C8A0', width: '85%' };
-  return { label: 'Very strong', color: '#00E676', width: '100%' };
-}
+import { strengthLabel } from '@/utils/utils';
 
 export default function SignupPage() {
   const {
@@ -103,19 +85,7 @@ export default function SignupPage() {
               error={fieldErrors.username}
               rightElement={
                 form.username.length >= 4 &&
-                !fieldErrors.username && (
-                  <Image
-                    src="https://cdn.jsdelivr.net/npm/lucide-static@0.441.0/icons/badge-check.svg"
-                    className="shrink-0"
-                    height={16}
-                    width={16}
-                    alt="ok"
-                    style={{
-                      filter:
-                        'invert(0.6) sepia(1) hue-rotate(100deg) saturate(5)',
-                    }}
-                  />
-                )
+                !fieldErrors.username && <BadgeCheck className="shrink-0" />
               }
             />
 
@@ -196,16 +166,7 @@ export default function SignupPage() {
             >
               {loading ? (
                 <>
-                  <Image
-                    src="https://cdn.jsdelivr.net/npm/lucide-static@0.441.0/icons/loader.svg"
-                    height={16}
-                    width={16}
-                    alt="loading"
-                    style={{
-                      filter: 'invert(1) brightness(0)',
-                      animation: 'spin 1s linear infinite',
-                    }}
-                  />
+                  <Loader size={16} />
                   Creating account...
                 </>
               ) : (

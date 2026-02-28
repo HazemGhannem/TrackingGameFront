@@ -3,9 +3,8 @@
 import { useRef } from 'react';
 import { Provider } from 'react-redux';
 import { store, AppStore } from '@/redux/store';
-import NotificationContainer from '@/components/NotificationContainer';
 import Navbar from '@/components/Navbar';
-import GameNotificationProvider from '@/components/GameNotificationProvider';
+import GameNotificationProvider from '@/components/notification/GameNotificationProvider';
 
 export default function ReduxProvider({
   children,
@@ -21,7 +20,6 @@ export default function ReduxProvider({
     <Provider store={storeRef.current}>
       <Navbar />
       <GameNotificationProvider>{children}</GameNotificationProvider>
-      <NotificationContainer />
     </Provider>
   );
 }

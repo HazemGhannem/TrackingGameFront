@@ -6,7 +6,7 @@ interface RankedStatsProps {
 
 export default function RankedStats({ lp, wins, losses }: RankedStatsProps) {
   const stats = [
-    { label: 'LP', value: lp, color: undefined },
+    { label: 'LP', value: lp, color: '#fff' },
     { label: 'WINS', value: wins, color: '#00E676' },
     { label: 'LOSSES', value: losses, color: '#FF3B5C' },
   ];
@@ -21,7 +21,7 @@ export default function RankedStats({ lp, wins, losses }: RankedStatsProps) {
           <p className="section-label">{label}</p>
           <p
             className="font-condensed font-700 text-lg mt-0.5"
-            style={{ color: color ?? '#fff' }}
+            style={{ color: color }}
           >
             {value}
           </p>

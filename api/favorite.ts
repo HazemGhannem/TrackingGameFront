@@ -1,28 +1,35 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { PopulatedFavoriteDocument } from './types';
+import {
+  PaginatedResponse,
+  PopulatedFavoriteDocument,
+} from '../types/api/types';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 const api = axios.create({
   baseURL: API_URL,
   withCredentials: true,
 });
 
 export const fetchFavorites = createAsyncThunk<
-  PopulatedFavoriteDocument[],
-  void,
+  PaginatedResponse<PopulatedFavoriteDocument>,
+  { page?: number; limit?: number },
   { rejectValue: string }
->('favorite/fetchAll', async (_, { rejectWithValue }) => {
-  try {
-    const res = await api.get<PopulatedFavoriteDocument[]>('/api/favorites/show');
-    return res.data;
-  } catch (error: any) {
-    return rejectWithValue(
-      error.response?.data?.message ?? error.message ?? 'Network error',
-    );
-  }
-});
+>(
+  'favorite/fetchAll',
+  async ({ page = 1, limit = 10 }, { rejectWithValue }) => {
+    try {
+      const res = await api.get<PaginatedResponse<PopulatedFavoriteDocument>>(
+        `/api/favorites/show?page=${page}&limit=${limit}`,
+      );
+      return res.data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data?.message ?? error.message ?? 'Network error',
+      );
+    }
+  },
+);
 
 export const addFavorite = createAsyncThunk<
   PopulatedFavoriteDocument,
@@ -43,16 +50,31 @@ export const addFavorite = createAsyncThunk<
 });
 
 export const removeFavorite = createAsyncThunk<
-  string,
-  { favoriteId: string },
+  { favoriteId: string; playerId: string },
+  { favoriteId: string; playerId: string },
   { rejectValue: string }
->('favorite/remove', async ({ favoriteId }, { rejectWithValue }) => {
+>('favorite/remove', async ({ favoriteId, playerId }, { rejectWithValue }) => {
   try {
-    await api.delete(`/api/favorites/${favoriteId}`);
-    return favoriteId;
+    await Promise.all([
+      api.delete(`/api/favorites/${favoriteId}`),
+      api.delete(`/api/live-games/delete/${playerId}`),
+    ]);
+    return { favoriteId, playerId };
   } catch (error: any) {
     return rejectWithValue(
       error.response?.data?.message ?? error.message ?? 'Network error',
     );
+  }
+});
+export const fetchFavoriteIds = createAsyncThunk<
+  string[],
+  void,
+  { rejectValue: string }
+>('favorite/fetchIds', async (_, { rejectWithValue }) => {
+  try {
+    const res = await api.get<{ ids: string[] }>('/api/favorites/ids');
+    return res.data.ids;
+  } catch (error: any) {
+    return rejectWithValue(error.response?.data?.message ?? 'Network error');
   }
 });

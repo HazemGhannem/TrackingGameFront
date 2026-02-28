@@ -1,8 +1,7 @@
 import { Trophy } from 'lucide-react';
-import { PlayerProfile } from '@/api/types';
+import { PlayerProfile } from '@/types/api/types';
 import {
   TIER_COLORS,
-  Region,
   profileIconUrl,
   winRate,
   wrColor,
@@ -16,14 +15,9 @@ import { useAuth } from '@/hooks/useAuth';
 
 interface ResultCardProps {
   profile: PlayerProfile;
-  activeRegion: Region;
 }
 
-export default function ResultCard({
-  profile,
-
-  activeRegion,
-}: ResultCardProps) {
+export default function ResultCard({ profile }: ResultCardProps) {
   const ranked = profile?.ranked[0];
   const summoner = profile.summoner;
   const { currentUser } = useAuth();
@@ -32,15 +26,11 @@ export default function ResultCard({
     : '#3A4155';
   const wr = ranked ? winRate(ranked.wins, ranked.losses) : 0;
   const color = wrColor(wr);
-
-  return (
+   return (
     <>
       {/* Header */}
       <div className="px-4 py-2 border-b border-[#1A2030] flex items-center justify-between">
         <span className="section-label">1 result</span>
-        <span className="flex items-center gap-1 text-[10px] font-condensed text-[#5A6478]">
-          {activeRegion.flag} {activeRegion.label}
-        </span>
       </div>
 
       {/* Player row */}
@@ -69,7 +59,6 @@ export default function ResultCard({
             <span className="text-[#3A4155] text-xs font-condensed">
               #{profile.tagLine}
             </span>
-            <span className="text-xs leading-none">{activeRegion.flag}</span>
           </div>
 
           <div className="flex items-center gap-2 mt-0.5 flex-wrap">
@@ -120,7 +109,7 @@ export default function ResultCard({
       {ranked && (
         <div className="px-4 py-3">
           <p className="section-label mb-2.5">
-            RANKED{' '}
+            RANKED
             {ranked.queueType === 'RANKED_SOLO_5x5' ? 'SOLO/DUO' : 'FLEX'}
           </p>
           <RankedStats

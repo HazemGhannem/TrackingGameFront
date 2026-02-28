@@ -1,15 +1,9 @@
 'use client';
 
 import StatCard from '@/components/StatCard';
+import { useAppSelector } from '@/redux/hook';
 
 const STATS = [
-  {
-    label: 'Live Matches',
-    value: '24',
-    sub: '+3 from yesterday',
-    icon: 'https://cdn.jsdelivr.net/npm/lucide-static@0.441.0/icons/radio.svg',
-    accent: '#00E5FF',
-  },
   {
     label: 'Active Players',
     value: '18.4K',
@@ -34,6 +28,8 @@ const STATS = [
 ];
 
 export default function HeroStats() {
+  const { pagination } = useAppSelector((s) => s.liveGame);
+
   return (
     <div className="pt-10 pb-2 animate-slide-up">
       <div className="mb-8">
@@ -48,8 +44,18 @@ export default function HeroStats() {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
+          key="live-matches"
+          label="Live Matches"
+          value={String(pagination.total)}
+          sub={`${pagination.total} tracked games`}
+          icon="https://cdn.jsdelivr.net/npm/lucide-static@0.441.0/icons/radio.svg"
+          accent="#00E5FF"
+          delay={0}
+        />
+
         {STATS.map((stat, i) => (
-          <StatCard key={stat.label} {...stat} delay={i * 0.07} />
+          <StatCard key={stat.label} {...stat} delay={(i + 1) * 0.07} />
         ))}
       </div>
     </div>

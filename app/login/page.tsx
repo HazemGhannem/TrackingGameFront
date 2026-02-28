@@ -15,8 +15,7 @@ export default function LoginPage() {
     handleLoginChange,
     handleLoginSubmit,
     togglePassword,
-    currentUser,
-  } = useAuth();
+   } = useAuth();
   return (
     <div className="min-h-screen bg-[#080A0F] flex items-center justify-center px-4 font-['Barlow',sans-serif]">
       {/* Grid bg */}

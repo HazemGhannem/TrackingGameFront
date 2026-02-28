@@ -1,5 +1,4 @@
-// All Data Dragon image URLs — update version as patches release
-const VERSION = '14.24.1';
+ const VERSION = '14.24.1';
 const BASE = `https://ddragon.leagueoflegends.com/cdn/${VERSION}`;
 
 export const DDragon = {

@@ -15,22 +15,6 @@ export interface LiveGameParticipant {
   };
 }
 
-export interface LiveGameData {
-  gameId: number;
-  gameMode: string;
-  gameType: string;
-  gameQueueConfigId: number;
-  gameStartTime: number;
-  participants: LiveGameParticipant[];
-  bannedChampions: { championId: number; teamId: number; pickTurn: number }[];
-}
-
-export interface LiveGameTeam {
-  teamId: 100 | 200;
-  label: 'Blue' | 'Red';
-  participants: LiveGameParticipant[];
-}
-
 // Notification types
 export interface GameStartNotification {
   type: 'GAME_START';
@@ -59,14 +43,27 @@ export interface GameEndNotification {
 }
 
 export type GameNotification = GameStartNotification | GameEndNotification;
+//auth 
 
-export type PlayerGameState = 'idle' | 'in-game';
+export interface SignupFormState {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
-export interface RedisGameEntry {
-  state: PlayerGameState;
-  gameId?: number;
-  gameMode?: string;
-  championName?: string;
-  championId?: number;
-  gameStartTime?: number;
+export interface SignupFieldErrors {
+  username?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+}
+export interface LoginFormState {
+  email: string;
+  password: string;
+}
+
+export interface LoginFieldErrors {
+  email?: string;
+  password?: string;
 }

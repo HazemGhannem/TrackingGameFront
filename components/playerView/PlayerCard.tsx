@@ -1,14 +1,8 @@
 'use client';
 
 import { X } from 'lucide-react';
-
-interface RankedInfo {
-  tier: string;
-  rank: string;
-  leaguePoints: number;
-  wins: number;
-  losses: number;
-}
+import { rankMeta } from '../constants/playerCardConstance';
+import { profileIconUrl, winRate } from '../constants/searchConstants';
 
 interface PlayerCardProps {
   favId: string;
@@ -16,21 +10,14 @@ interface PlayerCardProps {
   gameName: string;
   tagLine: string;
   profileIconId: number;
-  ranked?: RankedInfo;
-  onRemove: (playerId: string) => void;
-}
-
-function rankMeta(lp: number) {
-  if (lp >= 900) return { color: '#FFD700', label: 'S+' };
-  if (lp >= 700) return { color: '#C0C0C0', label: 'S' };
-  if (lp >= 500) return { color: '#CD7F32', label: 'A+' };
-  if (lp >= 300) return { color: '#00E5FF', label: 'A' };
-  return { color: '#8A94A8', label: 'B' };
+  ranked?: any;
+  onRemove: (playerId: string, userId: string) => void;
 }
 
 export default function PlayerCard({
   favId,
   gameName,
+  playerId,
   tagLine,
   profileIconId,
   ranked,
@@ -40,9 +27,7 @@ export default function PlayerCard({
   const { color, label } = rankMeta(lp);
   const tier = ranked?.tier ?? 'UNRANKED';
   const rank = ranked?.rank ?? '';
-  const winRate = ranked
-    ? Math.round((ranked.wins / (ranked.wins + ranked.losses)) * 100)
-    : 0;
+  const wr = ranked ? winRate(ranked.wins, ranked.losses) : 0;
 
   return (
     <div className="group relative rounded-2xl border border-[#1A2030] bg-[#0D1017] overflow-hidden transition-all duration-300 hover:border-[rgba(0,229,255,0.15)] hover:-translate-y-0.5">
@@ -66,7 +51,7 @@ export default function PlayerCard({
 
       {/* Remove button — passes playerId so the slice can filter correctly */}
       <button
-        onClick={() => onRemove(favId)}
+        onClick={() => onRemove(favId, playerId)}
         className="absolute top-3 right-3 w-6 h-6 rounded-lg border border-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 hover:!border-[rgba(255,59,92,0.35)] hover:bg-[rgba(255,59,92,0.08)] transition-all duration-200 cursor-pointer"
       >
         <X size={12} className="text-[#FF3B5C]" />
@@ -80,7 +65,7 @@ export default function PlayerCard({
             style={{ borderColor: `${color}25` }}
           >
             <img
-              src={`https://ddragon.leagueoflegends.com/cdn/14.10.1/img/profileicon/${profileIconId}.png`}
+              src={profileIconUrl(profileIconId)}
               className="w-full h-full object-cover"
               alt={gameName}
               onError={(e) => {
@@ -120,7 +105,7 @@ export default function PlayerCard({
               <div
                 className="h-full rounded-full"
                 style={{
-                  width: `${winRate}%`,
+                  width: `${wr}%`,
                   background: 'linear-gradient(90deg, #00E676, #00E67688)',
                 }}
               />

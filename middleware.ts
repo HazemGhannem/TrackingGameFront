@@ -14,9 +14,9 @@ const PRIVATE_ROUTES = [
 const AUTH_ROUTES = ['/login', '/signup'];
 
 async function isValidToken(token: string): Promise<boolean> {
-    try {
-      const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
-      await jwtVerify(token, secret);
+  try {
+    const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
+    await jwtVerify(token, secret);
     return true;
   } catch {
     return false;
@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const token = req.cookies.get(COOKIE_NAME)?.value;
-  const loggedIn = token ? await isValidToken(token!) : false
+  const loggedIn = token ? await isValidToken(token!) : false;
   const isPrivate = PRIVATE_ROUTES.some(
     (r) => pathname === r || pathname.startsWith(r + '/'),
   );
@@ -36,12 +36,12 @@ export async function middleware(req: NextRequest) {
   );
 
   if (isAuthPage && loggedIn) {
-    return NextResponse.redirect(new URL('/', req.url))
+    return NextResponse.redirect(new URL('/', req.url));
   }
 
   if (isPrivate && !loggedIn) {
-    const url = new URL('/login', req.url)
-    url.searchParams.set('from', pathname)
+    const url = new URL('/login', req.url);
+    url.searchParams.set('from', pathname);
     return NextResponse.redirect(url);
   }
   return NextResponse.next();
