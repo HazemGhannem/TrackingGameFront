@@ -4,34 +4,45 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { proxy: string[] } },
+  { params }: { params: Promise<{ proxy: string[] }> },
 ) {
-  return proxyRequest(req, params.proxy);
+  return proxyRequest(req, params);
 }
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: { proxy: string[] } },
+  { params }: { params: Promise<{ proxy: string[] }> },
 ) {
-  return proxyRequest(req, params.proxy);
+  return proxyRequest(req, params);
 }
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { proxy: string[] } },
+  { params }: { params: Promise<{ proxy: string[] }> },
 ) {
-  return proxyRequest(req, params.proxy);
+  return proxyRequest(req, params);
 }
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { proxy: string[] } },
+  { params }: { params: Promise<{ proxy: string[] }> },
 ) {
-  return proxyRequest(req, params.proxy);
+  return proxyRequest(req, params);
 }
 
-async function proxyRequest(req: NextRequest, segments: string[]) {
-  const path = segments.join('/');
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ proxy: string[] }> },
+) {
+  return proxyRequest(req, params);
+}
+
+async function proxyRequest(
+  req: NextRequest,
+  params: Promise<{ proxy: string[] }>,
+) {
+  const { proxy } = await params;
+  const path = proxy.join('/');
   const url = `${BACKEND_URL}/${path}${req.nextUrl.search}`;
 
   const headers = new Headers(req.headers);
