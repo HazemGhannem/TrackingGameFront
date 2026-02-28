@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import ReduxProvider from '@/app/ReduxProvider';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Esports — Live Tracker',
@@ -21,7 +22,9 @@ export default function RootLayout({
         />
       </head>
       <body className="antialiased">
-        <ReduxProvider>{children}</ReduxProvider>
+        <ReduxProvider>
+          <Suspense fallback={null}>{children}</Suspense>
+        </ReduxProvider>
       </body>
     </html>
   );

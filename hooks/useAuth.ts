@@ -1,8 +1,10 @@
+'use client';
+
 import { useState, useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { resetSignup } from '@/redux/slices/authSlice';
 import { loginUser, logoutUser, signupUser } from '@/api/auth';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   LoginFormState,
   SignupFieldErrors,
@@ -12,7 +14,7 @@ import {
 export function useAuth() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  // removed useSearchParams
+  const searchParams = useSearchParams();
 
   const { loading, success, error, user } = useAppSelector((s) => s.auth);
 
@@ -105,9 +107,10 @@ export function useAuth() {
       }),
     );
     if (loginUser.fulfilled.match(result)) {
-      router.push('/dashboard');  
+      const from = searchParams.get('from') ?? '/dashboard';
+      router.push(from);
     }
-  }, [validateLogin, dispatch, loginForm, router]);
+  }, [validateLogin, dispatch, loginForm, searchParams, router]);
 
   const handleLogout = useCallback(async () => {
     await dispatch(logoutUser());
