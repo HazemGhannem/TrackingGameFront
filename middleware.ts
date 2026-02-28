@@ -1,14 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
-const PRIVATE_ROUTES = [
-  '/dashboard',
-  '/profile',
-  '/settings',
-  '/players',
-  '/matches',
-  '/tournaments',
-];
+const PRIVATE_ROUTES = ['/dashboard', '/players', '/matches', '/tournaments'];
 const AUTH_ROUTES = ['/login', '/signup'];
 
 async function isValidToken(token: string): Promise<boolean> {

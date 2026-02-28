@@ -49,10 +49,10 @@ export default function PlayerCard({
         {label}
       </div>
 
-      {/* Remove button — passes playerId so the slice can filter correctly */}
+      {/* Remove button   */}
       <button
         onClick={() => onRemove(favId, playerId)}
-        className="absolute top-3 right-3 w-6 h-6 rounded-lg border border-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 hover:!border-[rgba(255,59,92,0.35)] hover:bg-[rgba(255,59,92,0.08)] transition-all duration-200 cursor-pointer"
+        className="absolute top-3 right-3 w-6 h-6 rounded-lg border border-transparent flex items-center justify-center opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:!border-[rgba(255,59,92,0.35)] hover:bg-[rgba(255,59,92,0.08)] transition-all duration-200 cursor-pointer"
       >
         <X size={12} className="text-[#FF3B5C]" />
       </button>
