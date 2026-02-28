@@ -133,18 +133,12 @@ export default function Navbar() {
                           </p>
                         </div>
                         <div className="p-1">
-                          <Link
-                            href="/profile"
-                            className="flex items-center gap-3 px-3 py-2 text-sm text-[#8A94A8] hover:text-white hover:bg-[#1A2030] rounded-lg transition-colors"
-                          >
+                          <div className="flex items-center gap-3 px-3 py-2 text-sm text-[#8A94A8] hover:text-white hover:bg-[#1A2030] rounded-lg transition-colors">
                             <UserIcon size={15} /> Profile
-                          </Link>
-                          <Link
-                            href="/settings"
-                            className="flex items-center gap-3 px-3 py-2 text-sm text-[#8A94A8] hover:text-white hover:bg-[#1A2030] rounded-lg transition-colors"
-                          >
+                          </div>
+                          <div className="flex items-center gap-3 px-3 py-2 text-sm text-[#8A94A8] hover:text-white hover:bg-[#1A2030] rounded-lg transition-colors">
                             <Settings size={15} /> Settings
-                          </Link>
+                          </div>
                         </div>
                         <div className="border-t border-[#1A2030] p-1">
                           <button
