@@ -4,10 +4,12 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function proxyRequest(
   req: NextRequest,
-  params: Promise<{ proxy: string[] }>,
+  params: Promise<{ slug: string[] }>,
 ) {
-  const { proxy } = await params;
-  const url = `${BACKEND_URL}/api/${proxy.join('/')}${req.nextUrl.search}`;
+  const { slug } = await params;
+  const url = `${BACKEND_URL}/api/${slug.join('/')}${req.nextUrl.search}`;
+
+  console.log('Proxying to:', url);
 
   const headers = new Headers(req.headers);
   headers.delete('host');
@@ -32,35 +34,35 @@ async function proxyRequest(
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ proxy: string[] }> },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
   return proxyRequest(req, params);
 }
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ proxy: string[] }> },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
   return proxyRequest(req, params);
 }
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ proxy: string[] }> },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
   return proxyRequest(req, params);
 }
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ proxy: string[] }> },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
   return proxyRequest(req, params);
 }
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ proxy: string[] }> },
+  { params }: { params: Promise<{ slug: string[] }> },
 ) {
   return proxyRequest(req, params);
 }
