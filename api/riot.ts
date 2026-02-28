@@ -14,7 +14,7 @@ export const playerSearch = createAsyncThunk<
 >('player/fetchPlayer', async ({ name, tag, region }, { rejectWithValue }) => {
   try {
     const res = await api.get<PlayerProfile>(
-      `/api/riot/player/${region}/${name}/${tag}`,
+      `/riot/player/${region}/${name}/${tag}`,
       { withCredentials: true },
     );
     return res.data;
@@ -37,7 +37,7 @@ export const fetchChallengers = createAsyncThunk<
 >('player/challenger', async (platform, { rejectWithValue }) => {
   try {
     const res = await api.get<{ players: ChallengerPlayer[] }>(
-      `/api/riot/player/challenger/${platform}`,
+      `/riot/player/challenger/${platform}`,
       { withCredentials: true },
     );
     return res.data.players;

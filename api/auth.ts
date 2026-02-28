@@ -8,7 +8,7 @@ export const signupUser = createAsyncThunk<
   { rejectValue: string }
 >('auth/signup', async (data: SignUpData, { rejectWithValue }) => {
   try {
-    const response = await api.post<authResponse>(`/api/auth/signup`, data);
+    const response = await api.post<authResponse>(`/auth/signup`, data);
     return response.data;
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.error) {
@@ -23,7 +23,7 @@ export const loginUser = createAsyncThunk<
   { rejectValue: string }
 >('auth/login', async (data: LoginData, { rejectWithValue }) => {
   try {
-    const response = await api.post<authResponse>(`/api/auth/login`, data);
+    const response = await api.post<authResponse>(`/auth/login`, data);
     const { token, user } = response.data;
     return user;
   } catch (err: any) {
@@ -37,6 +37,6 @@ export const loginUser = createAsyncThunk<
 export const logoutUser = createAsyncThunk<void, void>(
   'auth/logout',
   async () => {
-    await api.post('/api/auth/logout');
+    await api.post('/auth/logout');
   },
 );

@@ -16,7 +16,7 @@ export const fetchFavorites = createAsyncThunk<
   async ({ page = 1, limit = 10 }, { rejectWithValue }) => {
     try {
       const res = await api.get<PaginatedResponse<PopulatedFavoriteDocument>>(
-        `/api/favorites/show?page=${page}&limit=${limit}`,
+        `/favorites/show?page=${page}&limit=${limit}`,
       );
       return res.data;
     } catch (error: any) {
@@ -34,7 +34,7 @@ export const addFavorite = createAsyncThunk<
 >('favorite/add', async ({ playerId }, { rejectWithValue }) => {
   try {
     const res = await api.post<PopulatedFavoriteDocument>(
-      '/api/favorites/add',
+      '/favorites/add',
       { playerId },
     );
     return res.data;
@@ -52,8 +52,8 @@ export const removeFavorite = createAsyncThunk<
 >('favorite/remove', async ({ favoriteId, playerId }, { rejectWithValue }) => {
   try {
     await Promise.all([
-      api.delete(`/api/favorites/${favoriteId}`),
-      api.delete(`/api/live-games/delete/${playerId}`),
+      api.delete(`/favorites/${favoriteId}`),
+      api.delete(`/live-games/delete/${playerId}`),
     ]);
     return { favoriteId, playerId };
   } catch (error: any) {
@@ -68,7 +68,7 @@ export const fetchFavoriteIds = createAsyncThunk<
   { rejectValue: string }
 >('favorite/fetchIds', async (_, { rejectWithValue }) => {
   try {
-    const res = await api.get<{ ids: string[] }>('/api/favorites/ids');
+    const res = await api.get<{ ids: string[] }>('/favorites/ids');
     return res.data.ids;
   } catch (error: any) {
     return rejectWithValue(error.response?.data?.message ?? 'Network error');

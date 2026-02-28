@@ -14,7 +14,7 @@ export const getLiveGames = createAsyncThunk<
   async ({ page = 1, limit = 10 }, { rejectWithValue }) => {
     try {
       const res = await api.get<PaginatedResponse<ILiveGame>>(
-        `/api/live-games?page=${page}&limit=${limit}`,
+        `/live-games?page=${page}&limit=${limit}`,
         { withCredentials: true },
       );
       return res.data;
