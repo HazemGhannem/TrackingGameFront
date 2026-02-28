@@ -5,7 +5,7 @@ import { Search, Loader2, X } from 'lucide-react';
 import { REGIONS, parseRiotId } from '../constants/searchConstants';
 import RegionPicker from './RegionPicker';
 import SearchDropdown from './SearchDropdown';
-import { usePlayerSearch } from '@/hooks/Useplayersearch';
+import { usePlayerSearch } from '@/hooks/usePlayerSearch';
 
 export default function PlayerSearch() {
   const [query, setQuery] = useState('');
