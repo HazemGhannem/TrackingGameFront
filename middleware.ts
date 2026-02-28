@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
-
 const PRIVATE_ROUTES = [
   '/dashboard',
   '/profile',
@@ -26,6 +25,8 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   const token = req.cookies.get('esport_token')?.value;
+  const tokenback = req.cookies.get('token')?.value;
+  console.log(tokenback,"======================");
   const loggedIn = token ? await isValidToken(token!) : false;
   const isPrivate = PRIVATE_ROUTES.some(
     (r) => pathname === r || pathname.startsWith(r + '/'),
