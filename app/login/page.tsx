@@ -15,7 +15,7 @@ export default function LoginPage() {
     handleLoginChange,
     handleLoginSubmit,
     togglePassword,
-   } = useAuth();
+  } = useAuth();
   return (
     <div className="min-h-screen bg-[#080A0F] flex items-center justify-center px-4 font-['Barlow',sans-serif]">
       {/* Grid bg */}
@@ -78,12 +78,9 @@ export default function LoginPage() {
               <div className="flex items-center justify-between">
                 <span className="section-label">Password</span>
 
-                <Link
-                  href="/forgot-password"
-                  className="text-[#5A6478] text-xs hover:text-[#00E5FF] transition-colors"
-                >
+                <div className="text-[#5A6478] text-xs hover:text-[#00E5FF] transition-colors">
                   Forgot password?
-                </Link>
+                </div>
               </div>
 
               <Input
