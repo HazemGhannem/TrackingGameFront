@@ -2,10 +2,10 @@
 
 import Image from 'next/image';
 import { useEffect } from 'react';
-import { usePlayerSearch } from '../hooks/usePlayerSearch';
 import { PlatformRegion } from '@/types/api/types';
 import { profileIconUrl } from './constants/searchConstants';
 import { Trophy } from 'lucide-react';
+import { usePlayerSearch } from '@/hooks/Useplayersearch';
 
 const PLATFORMS: { label: string; value: PlatformRegion }[] = [
   { label: 'EUW', value: 'euw1' },
