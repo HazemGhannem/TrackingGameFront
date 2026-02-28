@@ -40,7 +40,7 @@ export function useFavorites() {
   function toggleTrack(playerId: string) {
     if (isFavorited(playerId)) {
       const favoriteId = items.find(
-        (fav) => String(fav.playerId._id) === playerId,
+        (fav:any) => String(fav.playerId._id) === playerId,
       )?._id;
       if (favoriteId) remove(String(favoriteId), String(playerId));
     } else {

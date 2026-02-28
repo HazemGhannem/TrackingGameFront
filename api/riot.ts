@@ -1,9 +1,11 @@
 // api/riot.ts
-import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { PlayerProfile, ChallengerPlayer, PlatformRegion } from '../types/api/types';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+import {
+  PlayerProfile,
+  ChallengerPlayer,
+  PlatformRegion,
+} from '../types/api/types';
+import { api } from './axiosInstance';
 
 export const playerSearch = createAsyncThunk<
   PlayerProfile,
@@ -11,8 +13,8 @@ export const playerSearch = createAsyncThunk<
   { rejectValue: string }
 >('player/fetchPlayer', async ({ name, tag, region }, { rejectWithValue }) => {
   try {
-    const res = await axios.get<PlayerProfile>(
-      `${API_URL}/api/riot/player/${region}/${name}/${tag}`,
+    const res = await api.get<PlayerProfile>(
+      `/api/riot/player/${region}/${name}/${tag}`,
       { withCredentials: true },
     );
     return res.data;
@@ -20,8 +22,8 @@ export const playerSearch = createAsyncThunk<
     if (error.response) {
       return rejectWithValue(
         error.response.data?.error ||
-        error.response.data?.message ||
-        'Server error',
+          error.response.data?.message ||
+          'Server error',
       );
     }
     return rejectWithValue(error.message || 'Network error');
@@ -34,8 +36,8 @@ export const fetchChallengers = createAsyncThunk<
   { rejectValue: string }
 >('player/challenger', async (platform, { rejectWithValue }) => {
   try {
-    const res = await axios.get<{ players: ChallengerPlayer[] }>(
-      `${API_URL}/api/riot/player/challenger/${platform}`,
+    const res = await api.get<{ players: ChallengerPlayer[] }>(
+      `/api/riot/player/challenger/${platform}`,
       { withCredentials: true },
     );
     return res.data.players;

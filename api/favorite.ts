@@ -1,15 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import {
   PaginatedResponse,
   PopulatedFavoriteDocument,
 } from '../types/api/types';
+import { api } from './axiosInstance';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const api = axios.create({
-  baseURL: API_URL,
-  withCredentials: true,
-});
+
 
 export const fetchFavorites = createAsyncThunk<
   PaginatedResponse<PopulatedFavoriteDocument>,

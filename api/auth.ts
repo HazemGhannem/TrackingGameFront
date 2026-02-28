@@ -1,7 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import { LoginData, SignUpData, User, authResponse } from '../types/api/types';
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { api } from './axiosInstance';
 const COOKIE_NAME = process.env.NEXT_PUBLIC_COOKIE_NAME;
 const MAX_AGE = 60 * 60 * 24 * 7; // 7 days
 
@@ -11,8 +10,8 @@ export const signupUser = createAsyncThunk<
   { rejectValue: string }
 >('auth/signup', async (data: SignUpData, { rejectWithValue }) => {
   try {
-    const response = await axios.post<authResponse>(
-      `${API_URL}/api/auth/signup`,
+    const response = await api.post<authResponse>(
+      ` /api/auth/signup`,
       data,
     );
     return response.data;
@@ -29,8 +28,8 @@ export const loginUser = createAsyncThunk<
   { rejectValue: string }
 >('auth/login', async (data: LoginData, { rejectWithValue }) => {
   try {
-    const response = await axios.post<authResponse>(
-      `${API_URL}/api/auth/login`,
+    const response = await api.post<authResponse>(
+      `/api/auth/login`,
       data,
     );
     const { token, user } = response.data;
