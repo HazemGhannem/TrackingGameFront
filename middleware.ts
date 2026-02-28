@@ -25,7 +25,7 @@ async function isValidToken(token: string): Promise<boolean> {
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  const token = req.cookies.get("token")?.value;
+  const token = req.cookies.get('esport_token')?.value;
   const loggedIn = token ? await isValidToken(token!) : false;
   const isPrivate = PRIVATE_ROUTES.some(
     (r) => pathname === r || pathname.startsWith(r + '/'),

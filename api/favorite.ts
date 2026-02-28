@@ -53,7 +53,7 @@ export const removeFavorite = createAsyncThunk<
   try {
     await Promise.all([
       api.delete(`/favorites/${favoriteId}`),
-      api.delete(`/live-games/delete/${playerId}`),
+      api.delete(`/api/live-games/delete/${playerId}`),
     ]);
     return { favoriteId, playerId };
   } catch (error: any) {
@@ -68,7 +68,7 @@ export const fetchFavoriteIds = createAsyncThunk<
   { rejectValue: string }
 >('favorite/fetchIds', async (_, { rejectWithValue }) => {
   try {
-    const res = await api.get<{ ids: string[] }>('/favorites/ids');
+    const res = await api.get<{ ids: string[] }>('/api/favorites/ids');
     return res.data.ids;
   } catch (error: any) {
     return rejectWithValue(error.response?.data?.message ?? 'Network error');
