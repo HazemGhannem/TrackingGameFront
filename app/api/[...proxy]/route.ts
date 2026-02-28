@@ -2,6 +2,34 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_API_URL;
 
+async function proxyRequest(
+  req: NextRequest,
+  params: Promise<{ proxy: string[] }>,
+) {
+  const { proxy } = await params;
+  const url = `${BACKEND_URL}/api/${proxy.join('/')}${req.nextUrl.search}`;
+
+  const headers = new Headers(req.headers);
+  headers.delete('host');
+
+  const body =
+    req.method !== 'GET' && req.method !== 'HEAD'
+      ? await req.text()
+      : undefined;
+
+  const response = await fetch(url, {
+    method: req.method,
+    headers,
+    body,
+    credentials: 'include',
+  });
+
+  return new NextResponse(response.body, {
+    status: response.status,
+    headers: new Headers(response.headers),
+  });
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ proxy: string[] }> },
@@ -35,34 +63,4 @@ export async function PATCH(
   { params }: { params: Promise<{ proxy: string[] }> },
 ) {
   return proxyRequest(req, params);
-}
-
-async function proxyRequest(
-  req: NextRequest,
-  params: Promise<{ proxy: string[] }>,
-) {
-  const { proxy } = await params;
-  const path = proxy.join('/');
-  const url = `${BACKEND_URL}/${path}${req.nextUrl.search}`;
-
-  const headers = new Headers(req.headers);
-  headers.delete('host');
-
-  const body =
-    req.method !== 'GET' && req.method !== 'HEAD'
-      ? await req.text()
-      : undefined;
-
-  const response = await fetch(url, {
-    method: req.method,
-    headers,
-    body,
-    credentials: 'include',
-  });
-
-  const resHeaders = new Headers(response.headers);
-  return new NextResponse(response.body, {
-    status: response.status,
-    headers: resHeaders,
-  });
 }
