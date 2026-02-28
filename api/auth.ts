@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { LoginData, SignUpData, User, authResponse } from '../types/api/types';
 import { api } from './axiosInstance';
-
+const COOKIE_NAME="token";
+const MAX_AGE = 7 * 24 * 60 * 60 * 1000 //7day;
 export const signupUser = createAsyncThunk<
   authResponse,
   SignUpData,
@@ -25,7 +26,7 @@ export const loginUser = createAsyncThunk<
   try {
     const response = await api.post<authResponse>(`/api/auth/login`, data);
     const { token, user } = response.data;
-    // saveTokenCookie(token);
+    saveTokenCookie(token);
     return user;
   } catch (err: any) {
     if (err.response && err.response.data && err.response.data.error) {
@@ -34,22 +35,18 @@ export const loginUser = createAsyncThunk<
     return rejectWithValue(err.message || 'login failed');
   }
 });
-// export const logoutUser = createAsyncThunk<void, void>(
-//   'auth/logout',
-//   async () => {
-//     // clearTokenCookie();
-//   },
-// );
+ 
 export const logoutUser = createAsyncThunk<void, void>(
   'auth/logout',
   async () => {
-    await api.post('/api/auth/logout'); // ✅ backend clears the cookie
+    await api.post('/api/auth/logout');
+    clearTokenCookie();
   },
 );
-// function saveTokenCookie(token: string) {
-//   document.cookie = `${COOKIE_NAME}=${token};Max-Age=${MAX_AGE};Path=/;SameSite=None;Secure`;
-// }
+function saveTokenCookie(token: string) {
+  document.cookie = `${COOKIE_NAME}=${token};Max-Age=${MAX_AGE};Path=/;SameSite=None;Secure`;
+}
 
-// function clearTokenCookie() {
-//   document.cookie = `${COOKIE_NAME}=;Max-Age=0;Path=/;SameSite=None;Secure`;
-// }
+function clearTokenCookie() {
+  document.cookie = `${COOKIE_NAME}=;Max-Age=0;Path=/;SameSite=None;Secure`;
+}
